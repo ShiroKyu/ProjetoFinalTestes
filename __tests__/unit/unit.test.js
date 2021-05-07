@@ -1,88 +1,101 @@
 const { password } = require("../../src/config/database");
 
-describe("testingg filters", () => {
-  it("should filter students by ads course", () => {
+describe("Testing filters", () => {
+  it("should filter students by ADS course", () => {
     const estudantes = [
-      { nome: "maria", curso: "civil" },
-      { nome: "joao", curso: "civil" },
-      { nome: "pedro", curso: "ads" },
-      { nome: "alice", curso: "ads" },
+      { nome: "Maria", curso: "Engenharia Civil" },
+      { nome: "João", curso: "Engenharia Civil" },
+      { nome: "Pedro", curso: "Análise e Desenvolvimento de Sistemas" },
+      { nome: "Alice", curso: "Análise e Desenvolvimento de Sistemas" },
     ];
-    var estudantes_ads = [];
-    for (var i = 0; i < estudantes.length; i++) {
-      if (estudantes[i].curso == "ads") {
-        estudantes_ads.push(estudantes[i]);
-      }
-    }
 
-    expect(estudantes_ads).toEqual(expect.anything());
+    const estudantesFiltrados = [
+      { nome: "Pedro", curso: "Análise e Desenvolvimento de Sistemas" },
+      { nome: "Alice", curso: "Análise e Desenvolvimento de Sistemas" },
+    ];
+
+    let estudantes_ads = [];
+    for(let i of estudantes)
+      if(i.curso === 'Análise e Desenvolvimento de Sistemas')
+        estudantes_ads.push(i);
+
+
+    expect(estudantes_ads).toEqual(estudantesFiltrados);
   });
+
   it("should filter students by their situation concluded", () => {
     const estudantes = [
-      { nome: "maria", situacao: "concluido" },
-      { nome: "joao", situacao: "cancelado" },
-      { nome: "pedro", situacao: "concluido" },
-      { nome: "alice", situacao: "transferido" },
+      { nome: "Maria", situacao: "Concluído" },
+      { nome: "João", situacao: "Cancelado" },
+      { nome: "Pedro", situacao: "Concluído" },
+      { nome: "Alice", situacao: "Transferido" },
     ];
-    var estudantes_concluido = [];
-    for (var i = 0; i < estudantes.length; i++) {
-      if (estudantes[i].situacao == "concluido") {
-        estudantes_concluido.push(estudantes[i]);
-      }
-    }
 
-    expect(estudantes_concluido).toEqual(expect.anything());
+    const estudantesFiltrados = [
+      { nome: "Maria", situacao: "Concluído" },
+      { nome: "Pedro", situacao: "Concluído" },
+    ];
+
+    let estudantes_concluido = [];
+
+    for(let i of estudantes)
+      if(i.situacao === "Concluído")
+        estudantes_concluido.push(i);
+
+    expect(estudantes_concluido).toEqual(estudantesFiltrados);
   });
 });
 
 describe("authentication", () => {
-  it("should althenticate", () => {
+  it("should authenticate", () => {
     const user = { email: "test@gmail.com", password: "654123" };
-    var valid_password = false;
-    if (user.password == "654123") {
-      valid_password = true;
-    }
+
+    let valid_password = false;
+    if (user.password == "654123") valid_password = true;
+    
     expect(valid_password).toBe(true);
   });
-  it("should not althenticate", () => {
+
+  it("should not authenticate", () => {
     const user = { email: "test@gmail.com", password: "654123" };
-    var valid_password = false;
-    if (user.password == "123456") {
-      valid_password = true;
-    }
+    let valid_password = false;
+
+    if (user.password == "123456") valid_password = true;
+    
     expect(valid_password).toBe(false);
   });
 });
 
 describe("post", () => {
   it("should delete post in array", () => {
-    posts = [
+    const posts = [
       {
-        titulo: "dia bonito",
-        descricao: "hoje estava bonito pois estava nublado",
+        titulo: "dia bonito", descricao: "hoje estava bonito pois estava nublado",
       },
-      { titulo: "calor", descricao: "esses dias estão muito quentes" },
+      { 
+        titulo: "calor", descricao: "esses dias estão muito quentes" 
+      },
     ];
-    for (var i = 0; i < posts.length; i++) {
-      if (posts[i].titulo == "calor") {
-        posts.splice(i, 1);
-      }
-    }
+
+    for (let i = 0; i < posts.length; i++)
+      if (posts[i].titulo === "calor") posts.splice(i, 1);
+    
     expect(posts.length).toBe(1);
   });
+
   it("should not delete post in array", () => {
-    posts = [
+    const posts = [
       {
-        titulo: "dia bonito",
-        descricao: "hoje estava bonito pois estava nublado",
+        titulo: "dia bonito", descricao: "hoje estava bonito pois estava nublado",
       },
-      { titulo: "calor", descricao: "esses dias estão muito quentes" },
+      { 
+        titulo: "calor", descricao: "esses dias estão muito quentes" 
+      },
     ];
-    for (var i = 0; i < posts.length; i++) {
-      if (posts[i].titulo == "nao existe") {
-        posts.splice(i, 1);
-      }
-    }
+
+    for (let i = 0; i < posts.length; i++)
+      if (posts[i].titulo == "Não existe") posts.splice(i, 1);
+
     expect(posts.length).toBe(2);
   });
 });
